@@ -22,6 +22,10 @@ const petsModule = (function(){
         return document.querySelectorAll("button");
     }
 
+    const getRows = function(){
+        return document.querySelectorAll("tr");
+    }
+
     const createPetElement = function(pet){
         return "<tr><td><img class='pet-image' src='"+pet.image+"' /></td><td>"+pet.name+"</td><td>"+pet.type+"</td><td><button data-sound='"+pet.sound+"'>"+pet.soundText+"</button></td></tr>"
     };
@@ -36,10 +40,19 @@ const petsModule = (function(){
         }
     }
 
-    const bindEvents = function(){
+    const changeRowStyle = function(selectedRow){
+        const $rows = getRows();
+        for(let i =0; i<$rows.length; i++){
+            $rows[i].classList.remove("clicked-row");
+        }
+        selectedRow.classList.add("clicked-row");
+    }
+
+    const clickToSound = function(){
         const buttons = getButtons();
         for(let i= 0; i< buttons.length; i++){
             buttons[i].addEventListener("click", function(event){
+                event.stopPropagation();
                 const soundId = this.dataset.sound;
                 const soundElement = document.getElementById(soundId);
                 if(soundElement){
@@ -49,9 +62,33 @@ const petsModule = (function(){
         }
     }
 
+    const keyPressToSound = function(){
+        window.addEventListener("keypress", function(event){
+            if(event.key === "b"){
+                document.getElementById("bark").play();
+            }
+            if(event.key === "m"){
+                document.getElementById("meow").play();
+            }
+        })
+    }
+
+    const clickToChangeRow = function(){
+        const $rows = getRows();
+        for(let i = 0; i < $rows.length; i++){
+            $rows[i].addEventListener("click", function(event){
+                const $trEl = event.target.parentElement;
+                document.querySelector(".main-image").src = $trEl.children[0].children[0].src;
+                changeRowStyle($trEl);
+            })
+        }
+    }
+
     const init = function(){
         putPetsInHtml();
-        bindEvents();
+        clickToSound();
+        keyPressToSound();
+        clickToChangeRow();
     }
 
     return {
