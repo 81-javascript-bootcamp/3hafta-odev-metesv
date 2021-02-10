@@ -13,6 +13,20 @@ const petsModule = (function(){
             type: "Domestic Shorthair",
             sound: "meow",
             soundText: "Meow - type m"
+        },
+        {
+            image: "https://media-cdn.tripadvisor.com/media/photo-s/16/31/e5/63/capuchin-monkey-photo.jpg",
+            name: "Charlie",
+            type: "White Face",
+            sound: "monkey",
+            soundText: "Monkey Scream - type s"
+        },
+        {
+            image: "https://www.nationalgeographic.com/content/dam/animals/thumbs/rights-exempt/mammals/s/sumatran-tiger-thumbnail-nationalgeographic_1456276.jpg",
+            name: "King",
+            type: "Sumatran",
+            sound: "monkey",
+            soundText: "Tiger - type t"
         }
     ];
     const $tbodyEl = document.querySelector("tbody");
@@ -69,6 +83,12 @@ const petsModule = (function(){
             }
             if(event.key === "m"){
                 document.getElementById("meow").play();
+            }
+            if(event.key === "s"){
+                document.getElementById("monkey").play();
+            }
+            if(event.key === "t"){
+                document.getElementById("tiger").play();
             }
         })
     }
