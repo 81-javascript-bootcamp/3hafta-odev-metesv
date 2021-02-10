@@ -97,7 +97,12 @@ const petsModule = (function(){
         const $rows = getRows();
         for(let i = 0; i < $rows.length; i++){
             $rows[i].addEventListener("click", function(event){
-                const $trEl = event.target.parentElement;
+                let $trEl;
+                if(event.target.tagName === "IMG"){
+                    $trEl = event.target.parentElement.parentElement;
+                } else{
+                    $trEl = event.target.parentElement;
+                }
                 document.querySelector(".main-image").src = $trEl.children[0].children[0].src;
                 changeRowStyle($trEl);
             })
