@@ -1,10 +1,21 @@
 body {
     background: #cbedb5;
     padding-top: 25px;
+    font-family: 'Roboto', sans-serif;
+}
+
+tr:hover {
+    opacity: 0.9;
 }
 
 .main-image {
     max-width: 100%;
+    border-radius: 75%;
+    transition: all .2s ease-in-out;
+}
+
+.main-image:hover{
+    transform: scale(1.1);
 }
 
 .pet-image {
