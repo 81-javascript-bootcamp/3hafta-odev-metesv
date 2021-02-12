@@ -13,6 +13,20 @@ const petsModule = (function(){
             type: "Domestic Shorthair",
             sound: "meow",
             soundText: "Meow - type m"
+        },
+        {
+            image: "https://media-cdn.tripadvisor.com/media/photo-s/16/31/e5/63/capuchin-monkey-photo.jpg",
+            name: "Charlie",
+            type: "White Face",
+            sound: "monkey",
+            soundText: "Monkey Scream - type s"
+        },
+        {
+            image: "https://www.nationalgeographic.com/content/dam/animals/thumbs/rights-exempt/mammals/s/sumatran-tiger-thumbnail-nationalgeographic_1456276.jpg",
+            name: "King",
+            type: "Sumatran",
+            sound: "monkey",
+            soundText: "Tiger - type t"
         }
     ];
     const $tbodyEl = document.querySelector("tbody");
@@ -20,6 +34,10 @@ const petsModule = (function(){
 
     const getButtons = function(){
         return document.querySelectorAll("button");
+    }
+
+    const getRows = function(){
+        return document.querySelectorAll("tr");
     }
 
     const createPetElement = function(pet){
@@ -36,10 +54,19 @@ const petsModule = (function(){
         }
     }
 
-    const bindEvents = function(){
+    const changeRowStyle = function(selectedRow){
+        const $rows = getRows();
+        for(let i =0; i<$rows.length; i++){
+            $rows[i].classList.remove("clicked-row");
+        }
+        selectedRow.classList.add("clicked-row");
+    }
+
+    const clickToSound = function(){
         const buttons = getButtons();
         for(let i= 0; i< buttons.length; i++){
             buttons[i].addEventListener("click", function(event){
+                event.stopPropagation();
                 const soundId = this.dataset.sound;
                 const soundElement = document.getElementById(soundId);
                 if(soundElement){
@@ -49,9 +76,44 @@ const petsModule = (function(){
         }
     }
 
+    const keyPressToSound = function(){
+        window.addEventListener("keypress", function(event){
+            if(event.key === "b"){
+                document.getElementById("bark").play();
+            }
+            if(event.key === "m"){
+                document.getElementById("meow").play();
+            }
+            if(event.key === "s"){
+                document.getElementById("monkey").play();
+            }
+            if(event.key === "t"){
+                document.getElementById("tiger").play();
+            }
+        })
+    }
+
+    const clickToChangeRow = function(){
+        const $rows = getRows();
+        for(let i = 0; i < $rows.length; i++){
+            $rows[i].addEventListener("click", function(event){
+                let $trEl;
+                if(event.target.tagName === "IMG"){
+                    $trEl = event.target.parentElement.parentElement;
+                } else{
+                    $trEl = event.target.parentElement;
+                }
+                document.querySelector(".main-image").src = $trEl.children[0].children[0].src;
+                changeRowStyle($trEl);
+            })
+        }
+    }
+
     const init = function(){
         putPetsInHtml();
-        bindEvents();
+        clickToSound();
+        keyPressToSound();
+        clickToChangeRow();
     }
 
     return {
